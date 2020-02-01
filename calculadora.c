@@ -2,36 +2,61 @@
 #include <stdio.h>
 #include "calculadora.h"
 
+
 int main(){
-    float vetor[5];
+    float vetor[30]; 
     int tamanho = sizeof(vetor) / sizeof(vetor[0]);
-    int option;
-    intro();
-    scanf("%i", &option);
-
-    switch (option)
-    {
-    case 0:
-        return 0;
-        break;
-
-    case 1:
-        printf("1\n");
-        break;
+    int option, i, option2;
+    preencher_vetor(tamanho, vetor);
     
-    case 2:
-        printf("2\n");
-        break;
-    case 3:
-        printf("3\n");
-        break;
-    case 4:
-        printf("4\n");
-        break;
-    default:
-        printf("Opção não listada!\n");
-        break;
+    while (1)
+    {
+    
+        intro();
+        scanf("%i", &option);
+
+        if(option == 0){
+            system("clear");
+            printf("Até mais! \n");
+            return 0;
+        }
+
+        for(i = 0; i < tamanho; i++){
+
+            printf("Digite o valor a ser adicionado ao vetor na posição %d [0 to stop]: ", i );
+            scanf("%f", &vetor[i]);
+            if (vetor[i] == 0)
+            {
+                break;
+            }    
+        }
+
+        switch(option) {
+        case 1:
+            system("clear");
+            saida(somar(tamanho, vetor));
+            if(saida == 1){
+                return 0;
+            }else
+            {
+                system("clear");
+                break;
+            }
+        case 2:
+            printf("2\n");
+            break;
+        case 3:
+            printf("3\n");
+            break;
+        case 4:
+            printf("4\n");
+            break;
+        default:
+            printf("Opção não listada!\n");
+            break;
+        }
     }
+    return 0;
 }
 
 /* Menu principal com as opções */
@@ -53,12 +78,17 @@ void intro(){
 
 /* Menu de saída */
 
-void saida(int resultado){
+int saida(int resultado){
+    int retorno = 0;
+    printf(" Resultado:      %d   \n", resultado);
     printf("+--------------------+\n");
     printf("|[0]  Menu           |\n");
     printf("|[1]  Sair           |\n");
     printf("+--------------------+\n");
-    printf("|Resultado:      %d   \n", resultado);
+    printf("|\e[1;33m[Escolha]: \x1b[0m");
+    scanf("%d", &retorno);
+
+    return retorno;
 }
 
 /* Função para somar os 2 valores digitados */
@@ -101,4 +131,12 @@ int dividir(int tamanho, float *vetor){
         resultado = resultado / vetor[i];
     }
     return resultado;
+}
+
+int preencher_vetor(int tamanho,float *vetor){
+    int i;
+    for(i = 0; i < tamanho; i++ ){
+        vetor[i] = 0;
+    }
+    return vetor;
 }
